@@ -17,25 +17,21 @@ class SnapperChain:
 
 
 def main():
-    if len(sys.argv) > 1:
-        input_filename = sys.argv[1]
+    '''Reads data from standard input, outputs to standard output.
+    
+    Must call it like this:
+    $ python3 script.py < file.in > file.out
+    '''
+    for i, line in enumerate(sys.stdin):
+        if i == 0:
+            number_of_inputs = int(line)
+        elif i <= number_of_inputs:
+            N, K = map(int, line.split())
 
-        input_file = open(input_filename)
-        output_file = open(input_filename.replace('.in', '.out'), 'w')
+            snapper_chain = SnapperChain(N)
+            lamp_state = snapper_chain.get_lamp_state(K)
 
-        for i, line in enumerate(input_file):
-            if i == 0:
-                number_of_inputs = int(line)
-            elif i <= number_of_inputs:
-                N, K = map(int, line.split())
-
-                snapper_chain = SnapperChain(N)
-                lamp_state = snapper_chain.get_lamp_state(K)
-
-                output_file.write('Case #{0}: {1}\n'.format(i, lamp_state))
-
-        input_file.close()
-        output_file.close()
+            print('Case #{0}: {1}'.format(i, lamp_state))
 
 
 if __name__ == '__main__':

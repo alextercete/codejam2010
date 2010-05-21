@@ -27,29 +27,25 @@ class RollerCoaster:
 
 
 def main():
-    if len(sys.argv) > 1:
-        input_filename = sys.argv[1]
+    '''Reads data from standard input, outputs to standard output.
+    
+    Must call it like this:
+    $ python3 script.py < file.in > file.out
+    '''
+    case_number = 0
+    for i, line in enumerate(sys.stdin):
+        if i == 0:
+            number_of_inputs = int(line)
+        else:
+            case_number += 1
+            R, k, N = map(int, line.split())
+            second_line = next(sys.stdin)
+            groups = list(map(int, second_line.split()))
 
-        input_file = open(input_filename)
-        output_file = open(input_filename.replace('.in', '.out'), 'w')
+            roller_coaster = RollerCoaster(R, k)
+            profit = roller_coaster.calculate_profit(groups)
 
-        case_number = 0
-        for i, line in enumerate(input_file):
-            if i == 0:
-                number_of_inputs = int(line)
-            else:
-                case_number += 1
-                R, k, N = map(int, line.split())
-                second_line = next(input_file)
-                groups = list(map(int, second_line.split()))
-
-                roller_coaster = RollerCoaster(R, k)
-                profit = roller_coaster.calculate_profit(groups)
-
-                output_file.write('Case #{0}: {1}\n'.format(case_number, profit))
-
-        input_file.close()
-        output_file.close()
+            print('Case #{0}: {1}'.format(case_number, profit))
 
 
 if __name__ == '__main__':
