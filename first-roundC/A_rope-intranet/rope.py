@@ -2,7 +2,7 @@ import sys
 
 def calculate_intersections(ropes):
     number_of_ropes = len(ropes)
-    intersections = set()
+    intersections = 0
 
     for i in range(number_of_ropes):
         current_rope = ropes[i]
@@ -11,29 +11,26 @@ def calculate_intersections(ropes):
 
             if (current_rope[0] > rope[0] and current_rope[1] < rope[1]) \
                     or (rope[0] > current_rope[0] and rope[1] < current_rope[1]):
-                pair = [''.join(map(str, current_rope)), ''.join(map(str, rope))]
-                intersections.add(''.join(sorted(pair)))
+                intersections += 1
 
-    return len(intersections)
+    return intersections
 
 
-def main():
-    '''Reads data from standard input, outputs to standard output.
-    
-    Must call it like this:
-    $ python3 script.py < file.in > file.out
-    '''
-    number_of_lines = int(sys.stdin.readline())
+def main(input_file=sys.stdin):
+    '''Reads data from standard input, outputs to standard output.'''
+
     case_number = 0
+    next(input_file)  # Go to line 2, 'cause we don't care about the number of cases
 
-    for line in sys.stdin:
-        N = int(line)
+    for line in input_file:
         case_number += 1
+        N = int(line)
         ropes = []
 
         for i in range(N):
-            next_line = next(sys.stdin)
-            ropes.append(list(map(int, next_line.split())))
+            next_line = next(input_file)
+            A, B = map(int, next_line.split())
+            ropes.append((A, B))  # Tuples are faster than lists
 
         intersections = calculate_intersections(ropes)
 
